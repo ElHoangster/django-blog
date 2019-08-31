@@ -17,5 +17,17 @@
           </div>
         </div>
 
+        <hr>
+        <a class="btn btn-default" href="{% url 'create_comment' pk=entry.pk %}">Add Comment</a>
+        {% for comment in entry.comments.all %}
+          <div class="comment">
+            <div class="date">{{ comment.comment_date }}</div>
+            <strong>{{ comment.comment_author }}</strong>
+            <p>{{ comment.comment_text|linebreaks }}</p>
+          </div>
+        {% empty %}
+          <p>No comments here yet :(</p>
+        {% endfor %}
+
       </div>
 {% endblock %}
