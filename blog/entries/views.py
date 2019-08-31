@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
-from .models import Entry, Comment
+from .models import Entry
 
 class HomeView(ListView):
 	model = Entry
@@ -17,15 +17,6 @@ class CreateEntryView(CreateView):
 	model = Entry
 	template_name = 'entries/create_entry.html'
 	fields = ['entry_title', 'entry_text']
-
-	def form_valid(self, form):
-		form.instance.entry_author = self.request.user
-		return super().form_valid(form)
-
-class CreateCommentView(CreateView):
-	model = Comment
-	template_name = 'entries/create_comment.html'
-	fields = ['text']
 
 	def form_valid(self, form):
 		form.instance.entry_author = self.request.user
