@@ -26,7 +26,7 @@ class CreateEntryView(CreateView):
 def create_comment(request, pk):
     entry = get_object_or_404(Entry, pk=pk)
     if request.method == "POST":
-        form = CommentForm(request.POST)
+        form = CommentForm(request.POST) # how does django know the model is comment
         if form.is_valid():
             comment = form.save(commit=False)
             comment.entry = entry
