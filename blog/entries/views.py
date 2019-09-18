@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView
-from .models import Entry
+from .models import Entry, Tag
 from .forms import CommentForm
 
 class HomeView(ListView):
@@ -36,3 +36,16 @@ def create_comment(request, pk):
     else:
         form = CommentForm()
     return render(request, 'entries/create_comment.html', {'form': form}) # how does django know which entry?
+
+class CreateTagView(CreateView):
+	model = Tag
+	fields = ['tag_text']
+
+	def form_valid(self, form):
+		self.object = form.save(commit=False)
+		entry_id = self.kwargs.get('pk')
+		print(entry_id)
+		# figure out how to associate a new Tag object with the Entry associated with the entry_id
+		self.object.save()
+
+		return HttpResponseRedirect(self.get_success_url())
