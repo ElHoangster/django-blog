@@ -44,8 +44,9 @@ class CreateTagView(CreateView):
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
 		entry_id = self.kwargs.get('pk')
-		print(entry_id)
 		# figure out how to associate a new Tag object with the Entry associated with the entry_id
 		self.object.save()
+		entry = get_object_or_404(Entry, pk=entry_id)
+		entry.entry_tags.add(self.object)
 
 		return HttpResponseRedirect(self.get_success_url())

@@ -12,7 +12,8 @@
             <p class="card-text">{{ object.entry_text|linebreaks }}</p>
           </div>
           <div>
-            <p>Tags: {{ object.entry_tags }}</p>
+            <a class="btn btn-primary btn-sm" href="{% url 'create a new tag' pk=entry.pk %}">Add Tag</a>
+            <p>Tags: {{ object.entry_tags.all }}</p>
           </div>
           <div class="card-footer text-muted">
             Posted on {{ object.entry_date }} by
