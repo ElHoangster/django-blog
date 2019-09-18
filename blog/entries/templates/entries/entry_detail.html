@@ -11,6 +11,9 @@
             <h3 class="card-title">{{ object.entry_title }}</h3>
             <p class="card-text">{{ object.entry_text|linebreaks }}</p>
           </div>
+          <div>
+            <p>Tags: {{ object.entry_tags }}</p>
+          </div>
           <div class="card-footer text-muted">
             Posted on {{ object.entry_date }} by
             <span class= "text-info mr-2">{{ object.entry_author }}</span>
@@ -18,7 +21,7 @@
         </div>
 
         <hr>
-        <a class="btn btn-default" href="{% url 'create_comment' pk=entry.pk %}">Add Comment</a>
+        <a class="btn btn-primary btn-sm" href="{% url 'create_comment' pk=entry.pk %}">Add Comment</a>
         {% for comment in entry.comments.all %}
           <div class="comment">
             <div class="date">{{ comment.comment_date }}</div>
