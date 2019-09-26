@@ -39,14 +39,20 @@ def create_comment(request, pk):
 
 class CreateTagView(CreateView):
 	model = Tag
-	fields = ['tag_text']
+	fields = ['tag_text']	
 
 	def form_valid(self, form):
 		self.object = form.save(commit=False)
 		entry_id = self.kwargs.get('pk')
 		# figure out how to associate a new Tag object with the Entry associated with the entry_id
-		self.object.save()
+		cleaned_tag = form.cleaned_data
+		print(cleaned_tag)
+		try:
+			tag_object = Tag.objects.get(tag_text = cleaned_tag['tag_text'])
+		except Tag.DoesNotExist:
+			tag_object = self.object
+			tag_object.save()
 		entry = get_object_or_404(Entry, pk=entry_id)
-		entry.entry_tags.add(self.object)
+		entry.entry_tags.add(tag_object)
 
 		return HttpResponseRedirect(self.get_success_url())
